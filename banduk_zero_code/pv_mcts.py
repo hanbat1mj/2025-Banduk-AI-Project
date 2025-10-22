@@ -12,15 +12,19 @@ import numpy as np
 import time
 import os
 
+# Dirichlet Noise 설정
+# Self-Play 단계에서만 노이즈를 추가하여 탐색의 다양성 확보
+# Evaluate 단계에서는 노이즈 없이 순수한 MCTS 평가 진행
 ADD_NOISE = os.getenv("ENV") == "SELF_PLAY"
 print("ADD_NOISE: ", ADD_NOISE)
 
-
+# MCTS 배치 처리를 위한 설정
 BATCH_SIZE = 16
 _pending_states = []
 
-DIR_NOISE_EPS = 0.25 # 엡실론
-DIR_NOISE_ALPHA = 0.28 # 알파
+# Dirichlet Noise 하이퍼파라미터
+DIR_NOISE_EPS = 0.25   # Epsilon: 노이즈 비율 (0.25 = 기존 정책 75% + 노이즈 25%)
+DIR_NOISE_ALPHA = 0.28 # Alpha: 노이즈 집중도 (낮을수록 특정 수에 집중, 높을수록 고른 분포)
 
 def _flush_batch(model):
     global _pending_states
@@ -73,13 +77,17 @@ def pv_mcts_scores(model, state, temperature, evaluate_count):
             self.w = 0  # 가치 누계
             self.n = 0  # 시행 횟수
             self.parent = parent
-            self.child_nodes = None  # 子ノード群
+            self.child_nodes = None  # 노드의 자식
 
         def expand(self, policies):
-            if ADD_NOISE and self.parent is None:
+            # Root 노드에만 Dirichlet Noise 적용 (AlphaZero 방식)
+            # Self-Play 때만 노이즈를 추가하여 탐색의 다양성을 높임
+            # 이는 학습 데이터의 다양성을 확보하고 과적합을 방지하는 효과가 있음
+            if ADD_NOISE and self.parent is None:  # Root 노드인 경우에만
                 noise = np.random.dirichlet(
-                    [DIR_NOISE_ALPHA] * len(policies)
+                    [DIR_NOISE_ALPHA] * len(policies)  # Alpha로 노이즈 분포 생성
                 )
+                # Epsilon 비율로 기존 정책과 노이즈를 혼합
                 policies = (1.0 - DIR_NOISE_EPS) * policies + DIR_NOISE_EPS * noise
 
             self.child_nodes = []
