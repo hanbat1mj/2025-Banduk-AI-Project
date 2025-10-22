@@ -11,7 +11,7 @@ from threading import Thread
 import tkinter as tk
 
 # 베스트 플레이어 모델 로드
-model = load_model('../model/latest.h5', compile=False)
+model = load_model('../model/best.h5', compile=False)
 
 
 # 게임 UI 정의
