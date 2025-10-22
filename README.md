@@ -8,6 +8,8 @@
 
 ## 알파제로
 
+추가 예정
+
 ### 개발 환경
 
 - HW: Apple Silicon M3 Pro
@@ -41,4 +43,24 @@ conda activate alpha_zero_env
 ```bash
 pip install tensorflow tensorflow-macos tensorflow-metal
 pip install numpy keras ray h5py matplotlib
+```
+
+### 실행 방법
+
+1. AI가 흑돌로 게임 시작
+
+```bash
+python ai_first_play.py
+```
+
+2. 사람이 흑돌로 게임 시작
+
+```bash
+python human_first_play.py
+```
+
+### 모델 트레인 하는 법
+
+```bash
+python train_cycle.py
 ```
