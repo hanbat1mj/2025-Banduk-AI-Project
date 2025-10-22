@@ -56,6 +56,7 @@ def train_cycle():
         print("\n=== Train", i+1, f"Cycle Started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===")
         
         '''
+        한 사이클 당 파라미터를 실험적으로 조절하여 Train 가능.
         if i % 2 == 0:
             set_evaluate_count(100)
             set_game_count(48)
@@ -84,9 +85,6 @@ def train_cycle():
             timer_start = time.time()
         else:
             PASS_TRAIN = 0
-
-
-        #set_evaluate_count(60)
 
         # 베스트 모델과 비교 평가
         subprocess.run(["python", "evaluate_network_parallel.py"], env={**os.environ, "ENV": "EVAL"})
