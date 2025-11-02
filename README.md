@@ -1,8 +1,10 @@
 # 반둑
 
+[Read README.md in English](https://github.com/hanbat1mj/2025-Banduk-AI-Project/blob/main/README.en.md)
+
 ## 규칙 설명
 
-[반둑 규칙 보러가기](https://hanbat1mj.github.io/about-banduk)
+- [반둑 규칙 보러가기](https://hanbat1mj.github.io/about-banduk)
 
 ## 알파제로
 
